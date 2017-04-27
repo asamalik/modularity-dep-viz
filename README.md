@@ -35,25 +35,33 @@ optional arguments:
 #### 1. Get all runtime dependnecies of httpd and nginx
 
 ```
-./dep-viz.py -l 10 httpd nginx | ./dot_to_svg.sh > out.svg
+./dep-viz.py -l 10 httpd nginx | ./dot_to_svg.sh > example1.svg
 ```
+
+[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example1.svg)
 
 #### 2. The same as previous step, but show only SRPM (source) packages
 
 ```
-./dep-viz.py -l 10 --srpm httpd nginx | ./dot_to_svg.sh > out.svg
+./dep-viz.py -l 10 --srpm httpd nginx | ./dot_to_svg.sh > example2.svg
 ```
+
+[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example2.svg)
 
 
 #### 3. Get build dependencies of nginx (limit recursion to 1 level)
 
 ```
-./dep-viz.py -l 1 --build nginx | ./dot_to_svg.sh > out.svg
+./dep-viz.py -l 1 --build nginx | ./dot_to_svg.sh > example3.svg
 ```
+
+[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example3.svg)
 
 #### 4. Get build dependencies of nginx (limit recursion to 3 levels)
 
 ```
-./dep-viz.py -l 3 --build nginx | ./dot_to_svg.sh > out.svg
+./dep-viz.py -l 3 --build nginx | ./dot_to_svg.sh > example4.svg
 ```
+
+[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example4.svg)
 
