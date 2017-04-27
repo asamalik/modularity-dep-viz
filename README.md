@@ -7,6 +7,5 @@ Based on [Harald's script](https://harald.hoyer.xyz/2014/01/14/self-hosting-fedo
 
 ## Usage
 
-1. Edit the script to choose between runtime/build deps and number of levels for recursive resolving
-2. Generate the deps `python dep-viz.py nginx > out.dot`
-3. Make it nice `START=7; cat out.dot | sfdp -Gstart=$START -Goverlap=prism | gvmap -e -d $START | neato -Gstart=$START -n -Ecolor=#44444455 -Tsvg > out.svg`
+1. Generate the deps `python dep-viz.py [--srpm] [--build] [-l INT] PKG [PKG ...] > out.dot`
+2. Make it nice `START=7; cat out.dot | sfdp -Gstart=$START -Goverlap=prism | gvmap -e -d $START | neato -Gstart=$START -n -Ecolor=#44444455 -Tsvg > out.svg`

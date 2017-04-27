@@ -4,17 +4,27 @@ import subprocess
 # this script can figure out build or runtime dependencies of a set of packages
 # it also knows what's in base runtime and uses that when possible
 
+import argparse
+
+parser = argparse.ArgumentParser(description='Dependency visualizer.')
+parser.add_argument('--build', action="store_true", help='resolve build instead of runtime dependencies')
+parser.add_argument('--srpm', action="store_true", help='visualize source instead of binary packages - only for runtime deps')
+parser.add_argument('-l', '--max-level', type=int, default=1, help='maximum level of recursive dependencies')
+parser.add_argument('packages', metavar='PACKAGE', type=str, nargs='+', help='packages to be analyzed')
+args = parser.parse_args()
+
+
 # Settings:
 
 # Build or runtime deps? True is build, False runtime
-option_build_requires = True
+option_build_requires = args.build
 
 # Runtime deps output binary RPMs. Set to True to output source SRPMSs.
 # The script will run much longer.
-option_just_sources = False
+option_just_sources = args.srpm
 
 # Number of levels of requires
-option_maximum_of_levels = 3
+option_maximum_of_levels = args.max_level
 
 # END of settings
 
@@ -84,7 +94,7 @@ def getBaseRuntimePkgs():
 brt_pkgs = getBaseRuntimePkgs()
 
 oldpkgset = set()
-newpkgset = set(getSRPMs(sys.argv[1:]))
+newpkgset = set(getSRPMs(args.packages))
 
 ignoreset = set([
     "generic-release",
@@ -127,20 +137,6 @@ while (len(newpkgset - oldpkgset) > 0) and (level < option_maximum_of_levels):
             i_print = getSRPM(i)
         else:
             i_print = i
-
-        # Visualise every dependency differently.
-        #if i_print not in highlighted_pkgs:
-        #    highlighted_pkgs.add(i_print)
-        #    if level is 0:
-        #        print '\t"%s" [color=red,fontcolor=green,fontsize=40];' % i_print
-        #    elif level is 1:
-        #        print '\t"%s" [fontsize=25];' % i_print
-        #    elif level is 2:
-        #        print '\t"%s" [fontcolor="#003380",fontsize=20];' % i_print
-        #    elif level is 3:
-        #        print '\t"%s" [fontcolor="#0055d4",fontsize=16];' % i_print
-        #    elif level is 4:
-        #        print '\t"%s" [fontcolor="#2a7fff",fontsize=14];' % i_print
 
         if len(req):
             for j in req:
@@ -204,7 +200,7 @@ while (len(newpkgset - oldpkgset) > 0) and (level < option_maximum_of_levels):
     level+=1
 print "}"
 
-for i in newpkgset:
+for i in highlighted_pkgs:
     print >> sys.stderr, i
 
-print >> sys.stderr, "%d Packages" % len(newpkgset)
+print >> sys.stderr, "%d Packages" % len(highlighted_pkgs)
