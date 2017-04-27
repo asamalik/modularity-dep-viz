@@ -44,7 +44,14 @@ optional arguments:
 ./dep-viz.py -l 10 --srpm httpd nginx | ./dot_to_svg.sh > out.svg
 ```
 
-#### 3. Get build dependencies of nginx (limit recursion to 3 levels)
+
+#### 3. Get build dependencies of nginx (limit recursion to 1 level)
+
+```
+./dep-viz.py -l 1 --build nginx | ./dot_to_svg.sh > out.svg
+```
+
+#### 4. Get build dependencies of nginx (limit recursion to 3 levels)
 
 ```
 ./dep-viz.py -l 3 --build nginx | ./dot_to_svg.sh > out.svg
