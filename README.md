@@ -46,7 +46,7 @@ optional arguments:
 ./dep-viz.py -l 10 --srpm httpd nginx | ./dot_to_svg.sh > example2.svg
 ```
 
-[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example2.svg)
+[see example2.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example2.svg)
 
 
 #### 3. Get build dependencies of nginx (limit recursion to 1 level)
@@ -55,7 +55,7 @@ optional arguments:
 ./dep-viz.py -l 1 --build nginx | ./dot_to_svg.sh > example3.svg
 ```
 
-[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example3.svg)
+[see example3.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example3.svg)
 
 #### 4. Get build dependencies of nginx (limit recursion to 3 levels)
 
@@ -63,5 +63,5 @@ optional arguments:
 ./dep-viz.py -l 3 --build nginx | ./dot_to_svg.sh > example4.svg
 ```
 
-[see example1.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example4.svg)
+[see example4.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example4.svg)
 
