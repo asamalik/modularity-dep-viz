@@ -34,10 +34,15 @@ option_maximum_of_levels = args.max_level
 if option_build_requires:
     option_just_sources = False
 
+fedora_repo = "http://ftp.fi.muni.cz/pub/linux/fedora/linux/development/26/Everything/x86_64/os/"
+fedora_source_repo = "http://ftp.fi.muni.cz/pub/linux/fedora/linux/development/26/Everything/source/tree/"
+
+binary_repo_str = '--repofrompath=f26,{}'.format(fedora_repo)
+source_repo_str = '--repofrompath=f26-source,{}'.format(fedora_source_repo)
 
 def getBuildRequires(pkgset):
     ret = set()
-    cmd = ["repoquery", "--disablerepo=*", "--enablerepo=fedora", "--enablerepo=fedora-source", "--requires", "--srpm", "--source"]
+    cmd = ["repoquery", "--disablerepo=*", binary_repo_str, source_repo_str, "--enablerepo=f26", "--enablerepo=f26-source", "--requires", "--srpm", "--source"]
     cmd.extend(pkgset)
     #print cmd
     out = subprocess.check_output(cmd)
@@ -47,7 +52,7 @@ def getBuildRequires(pkgset):
 
 def getRequires(pkgset):
     ret = set()
-    cmd = ["repoquery", "--disablerepo=*", "--enablerepo=fedora", "--enablerepo=fedora-source", "--requires", "--source"]
+    cmd = ["repoquery", "--disablerepo=*", binary_repo_str, source_repo_str, "--enablerepo=f26", "--enablerepo=f26-source", "--requires", "--source"]
     cmd.extend(pkgset)
     #print cmd
     out = subprocess.check_output(cmd)
@@ -57,7 +62,7 @@ def getRequires(pkgset):
 
 def getRPMs(requires):
     ret = set()
-    cmd = ["repoquery", "--disablerepo=*", "--enablerepo=fedora", "--enablerepo=fedora-source", "--whatprovides"]
+    cmd = ["repoquery", "--disablerepo=*", binary_repo_str, source_repo_str, "--enablerepo=f26", "--enablerepo=f26-source", "--whatprovides"]
     cmd.extend(requires)
     out = subprocess.check_output(cmd)
     for prov in out.split("\n"):
@@ -66,7 +71,7 @@ def getRPMs(requires):
 
 def getSRPMs(requires):
     ret = set()
-    cmd = ["repoquery", "--disablerepo=*", "--enablerepo=fedora", "--enablerepo=fedora-source", "--whatprovides", "--source"]
+    cmd = ["repoquery", "--disablerepo=*", binary_repo_str, source_repo_str, "--enablerepo=f26", "--enablerepo=f26-source", "--whatprovides", "--source"]
     cmd.extend(requires)
     out = subprocess.check_output(cmd)
     for prov in out.split("\n"):
@@ -78,7 +83,7 @@ def getSRPMs(requires):
     return ret
 
 def getSRPM(package):
-    cmd = ["repoquery", "--disablerepo=*", "--enablerepo=fedora", "--enablerepo=fedora-source", "--whatprovides", "--source", package]
+    cmd = ["repoquery", "--disablerepo=*", binary_repo_str, source_repo_str, "--enablerepo=f26", "--enablerepo=f26-source", "--whatprovides", "--source", package]
     out = subprocess.check_output(cmd)
 
     prov =  out.split("\n")[0]
