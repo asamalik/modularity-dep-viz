@@ -92,6 +92,10 @@ ignored_relations:
 The previous example shows that `nginx` build-requires `gd`. If you want to see what happens when you remove that dependency, create a file `ignored-relations.yaml` with the following content:
 
 ```
+---
+ignored_relations:
+  nginx:
+  - gd
 ```
 
 ... and use the `--ignored-relations-file FILENAME` option:
