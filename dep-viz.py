@@ -115,6 +115,7 @@ modules = set()
 # which was happening when 1st lvl dep was also a 3rd lvl dep, so the pkg got highlighted as 3rd lvl
 highlighted_pkgs = set()
 
+
 # highlight input distinctively
 for pkg in newpkgset:
     print '\t"%s" [color=red,fontcolor=green,fontsize=40];' % pkg
@@ -180,7 +181,6 @@ while (len(newpkgset - oldpkgset) > 0) and (level < option_maximum_of_levels):
                 # ignored packages
                 elif j in ignoreset:
                     print '\t"%s" [fontcolor=red];' % j_print
-                    print '\t"%s" -> "%s";' % (i_print, j_print)
                     newpkgset.discard(j)
 
 
@@ -206,3 +206,4 @@ for i in highlighted_pkgs:
     print >> sys.stderr, i
 
 print >> sys.stderr, "%d Packages" % len(highlighted_pkgs)
+
