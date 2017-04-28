@@ -41,11 +41,11 @@
             }
             if (title[1] == text) {
               id = nodes[index].id;
-              document.getElementById(id).childNodes[2].setAttribute("stroke-width", "3");
-              document.getElementById(id).childNodes[2].setAttribute("stroke-opacity", "0.7");
+              document.getElementById(id).childNodes[2].setAttribute("stroke-width", "5");
+              document.getElementById(id).childNodes[2].setAttribute("stroke-opacity", "1");
               document.getElementById(id).childNodes[2].setAttribute("stroke", "#333377");
-              document.getElementById(id).childNodes[4].setAttribute("stroke-width", "3");
-              document.getElementById(id).childNodes[4].setAttribute("stroke-opacity", "0.7");
+              document.getElementById(id).childNodes[4].setAttribute("stroke-width", "5");
+              document.getElementById(id).childNodes[4].setAttribute("stroke-opacity", "1");
               document.getElementById(id).childNodes[4].setAttribute("stroke", "#333377");
             }
 
