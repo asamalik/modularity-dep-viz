@@ -2,21 +2,22 @@
 
 import sys
 import subprocess
+import argparse
+import yaml
 
 # this script can figure out build or runtime dependencies of a set of packages
 # it also knows what's in base runtime and uses that when possible
 
-import argparse
+
+
 
 parser = argparse.ArgumentParser(description='Dependency visualizer.')
 parser.add_argument('--build', action="store_true", help='resolve build instead of runtime dependencies')
 parser.add_argument('--srpm', action="store_true", help='visualize source instead of binary packages - only for runtime deps')
+parser.add_argument('--ignored-relations-file', type=str, default="", help='a YAML file describing which dependencies should be ignored')
 parser.add_argument('-l', '--max-level', type=int, default=1, help='maximum level of recursive dependencies')
 parser.add_argument('packages', metavar='PACKAGE', type=str, nargs='+', help='packages to be analyzed')
 args = parser.parse_args()
-
-
-# Settings:
 
 # Build or runtime deps? True is build, False runtime
 option_build_requires = args.build
@@ -28,7 +29,15 @@ option_just_sources = args.srpm
 # Number of levels of requires
 option_maximum_of_levels = args.max_level
 
-# END of settings
+# you can specify package dependencies you want to ignore
+ignored_relations = {}
+if args.ignored_relations_file:
+    try:
+        rel_file = open(args.ignored_relations_file,'r')
+        ignored_relations = yaml.load(rel_file)["ignored_relations"]
+    except:
+        print >> sys.stderr, "ERROR: Can't read the 'ignored-deps-file'."
+    
 
 # build deps are srpms anyway, so let's not waste time...
 if option_build_requires:
@@ -138,6 +147,7 @@ while (len(newpkgset - oldpkgset) > 0) and (level < option_maximum_of_levels):
             req = getRPMs(getRequires([i]))
         newpkgset = newpkgset | req
 
+
         # i is package
 
         # show just source packages?
@@ -158,6 +168,11 @@ while (len(newpkgset - oldpkgset) > 0) and (level < option_maximum_of_levels):
                     j_print = j
 
 
+                if i_print in ignored_relations and j_print in ignored_relations[i_print]:
+                    newpkgset.discard(j)
+                    print >> sys.stderr, 'Ignored "%s" -> "%s"' % (i_print, j_print)
+                    continue
+                
 
                 # Base Runtime module
                 if j in brt_pkgs:

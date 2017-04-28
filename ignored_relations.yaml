@@ -1,0 +1,4 @@
+---
+ignored_relations:
+  nginx:
+  - gd

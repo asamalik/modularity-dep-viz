@@ -14,7 +14,10 @@ Based on [Harald's script](https://harald.hoyer.xyz/2014/01/14/self-hosting-fedo
 ### All parametres
 
 ```
-usage: dep-viz.py [-h] [--build] [--srpm] [-l MAX_LEVEL] PACKAGE [PACKAGE ...]
+usage: dep-viz.py [-h] [--build] [--srpm]
+                  [--ignored-relations-file IGNORED_RELATIONS_FILE]
+                  [-l MAX_LEVEL]
+                  PACKAGE [PACKAGE ...]
 
 Dependency visualizer.
 
@@ -26,9 +29,28 @@ optional arguments:
   --build               resolve build instead of runtime dependencies
   --srpm                visualize source instead of binary packages - only for
                         runtime deps
+  --ignored-relations-file IGNORED_RELATIONS_FILE
+                        a YAML file describing which dependencies should be
+                        ignored
   -l MAX_LEVEL, --max-level MAX_LEVEL
                         maximum level of recursive dependencies
 ```
+
+### Ignoring dependencies
+
+You will probably use this tool to optimize dependencies. If you plan to remove a dependency, you can visualize that change already using the `--ignored-relations-file FILENAME` option. The file has the following syntax:
+
+```
+---
+ignored_relations:
+  package_one:
+  - removed_dependency_1
+  - removed_dependency_3
+  another_package:
+  - another_removed_dep
+```
+
+
 
 ### Examples
 
@@ -65,3 +87,19 @@ optional arguments:
 
 [see example4.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example4.svg)
 
+#### 5. Remove unwanted dependency
+
+The previous example shows that `nginx` build-requires `gd`. If you want to see what happens when you remove that dependency, create a file `ignored-relations.yaml` with the following content:
+
+```
+```
+
+... and use the `--ignored-relations-file FILENAME` option:
+
+```
+./dep-viz.py -l 3 --build --ignored-relations-file ./ignored_relations.yaml nginx | ./dot_to_svg.sh > example_outputs/example5.svg
+```
+
+[see example5.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example5.svg)
+
+Yay! You would need only 36 packages instead of 61.
