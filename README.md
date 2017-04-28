@@ -101,7 +101,7 @@ ignored_relations:
 ... and use the `--ignored-relations-file FILENAME` option:
 
 ```
-./dep-viz.py -l 3 --build --ignored-relations-file ./ignored_relations.yaml nginx | ./dot_to_svg.sh > example_outputs/example5.svg
+./dep-viz.py -l 3 --build --ignored-relations-file ./ignored_relations.yaml nginx | ./dot_to_svg.sh > example5.svg
 ```
 
 [see example5.svg](https://github.com/asamalik/modularity-dep-viz/blob/master/example_outputs/example5.svg)
